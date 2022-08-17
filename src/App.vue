@@ -15,24 +15,29 @@
 
       <form>
         <label for="fname">First Name</label>
-        <input type="text" id="fname" name="firstname" />
+        <input type="text" id="fname" name="firstname" v-model="fname" />
 
         <label for="lname">Last Name</label>
-        <input type="text" id="lname" name="lastname" />
+        <input type="text" id="lname" name="lastname" v-model="lname" />
 
         <label for="tel">Telephone</label>
-        <input type="text" id="tel" name="telephone" />
+        <input type="text" id="tel" name="telephone" v-model="tel" />
 
         <label for="country">Country</label>
-        <select id="country" name="country">
-          <option>Please Select ...</option>
+        <select id="country" name="country" v-model="country">
+          <option value="">Please Select ...</option>
           <option value="australia">Australia</option>
           <option value="canada">Canada</option>
           <option value="usa">USA</option>
         </select>
 
         <label for="subject">Subject</label>
-        <textarea id="subject" name="subject" style="height: 150px"></textarea>
+        <textarea
+          id="subject"
+          name="subject"
+          style="height: 150px"
+          v-model="subject"
+        ></textarea>
 
         <input
           type="submit"
@@ -49,8 +54,18 @@
 <script setup>
 import { ref } from "vue";
 const showConfirmation = ref(false);
+const fname = ref("");
+const lname = ref("");
+const tel = ref("");
+const country = ref("");
+const subject = ref("");
 function updateConfirmation() {
   showConfirmation.value = true;
+  fname.value = "";
+  lname.value = "";
+  tel.value = "";
+  country.value = "";
+  subject.value = "";
 }
 </script>
 
