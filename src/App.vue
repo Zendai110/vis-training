@@ -1,4 +1,9 @@
 <template>
+  <div id="confirm-msg" class="message" v-if="showConfirmation">
+    <div></div>
+    Thank you for your time. Details have been successfully submitted.
+    <button @click.prevent="close()" class="close-button">x</button>
+  </div>
   <header style="text-align: center">
     <img
       style="width: 150px; margin-top: 20px"
@@ -9,19 +14,36 @@
     <div class="item"></div>
     <div class="content">
       <h2>Contact Us</h2>
-      <div id="confirm-msg" class="message" v-if="showConfirmation">
-        Details have been successfully submitted
-      </div>
 
       <form>
         <label for="fname">First Name</label>
-        <input type="text" id="fname" name="firstname" v-model="fname" />
+        <input
+          type="text"
+          id="fname"
+          name="firstname"
+          v-model="v$.fname.$model"
+        />
+        <div class="error-msg" v-if="v$.fname.$error">
+          First Name is required
+        </div>
+        <br />
 
         <label for="lname">Last Name</label>
-        <input type="text" id="lname" name="lastname" v-model="lname" />
+        <input
+          type="text"
+          id="lname"
+          name="lastname"
+          v-model="v$.lname.$model"
+        />
+        <div class="error-msg" v-if="v$.lname.$error">
+          Last Name is required
+        </div>
+        <br />
 
         <label for="tel">Telephone</label>
-        <input type="text" id="tel" name="telephone" v-model="tel" />
+        <input type="text" id="tel" name="telephone" v-model="v$.tel.$model" />
+        <div class="error-msg" v-if="v$.tel.$error">Telephone is required</div>
+        <br />
 
         <label for="country">Country</label>
         <select id="country" name="country" v-model="country">
@@ -36,12 +58,17 @@
           id="subject"
           name="subject"
           style="height: 150px"
-          v-model="subject"
+          v-model="v$.subject.$model"
         ></textarea>
+        <div class="error-msg" v-if="v$.subject.$error">
+          Subject is required
+        </div>
+        <br />
 
         <input
           type="submit"
           value="Submit"
+          id="submission"
           @click.prevent="updateConfirmation()"
         />
       </form>
@@ -52,21 +79,35 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useVuelidate } from "@vuelidate/core";
+import { minLength, required } from "@vuelidate/validators";
+
 const showConfirmation = ref(false);
-const fname = ref("");
-const lname = ref("");
-const tel = ref("");
+const fname = ref(null);
+const lname = ref(null);
+const tel = ref(null);
 const country = ref("");
-const subject = ref("");
-function updateConfirmation() {
+const subject = ref(null);
+const rules = computed(() => ({
+  fname: { required },
+  lname: { required },
+  tel: { required },
+  subject: { required },
+}));
+const v$ = useVuelidate(rules, { fname, lname, tel, subject });
+const updateConfirmation = () => {
   showConfirmation.value = true;
-  fname.value = "";
-  lname.value = "";
-  tel.value = "";
+  fname.value = null;
+  lname.value = null;
+  tel.value = null;
   country.value = "";
-  subject.value = "";
-}
+  subject.value = null;
+  v$.value.$reset();
+};
+const close = () => {
+  showConfirmation.value = false;
+};
 </script>
 
 <style scoped>
@@ -76,11 +117,12 @@ function updateConfirmation() {
 }
 .middle {
   display: flex;
+  flex-direction: row;
 }
 
 .item {
   height: 100px;
-  width: 800px; /* A fixed width as the default */
+  width: 600px; /* A fixed width as the default */
 }
 
 .content {
@@ -134,10 +176,35 @@ input[type="submit"]:hover {
 }
 
 .message {
+  position: fixed;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
   margin-block-end: 20px;
-  background-color: rgba(237, 67, 37, 0.267);
+  background-color: rgba(237, 67, 37, 0.9);
   border-radius: 5px;
-  padding: 10px;
+  padding: 20px;
   text-align: center;
+  color: #fff;
+}
+
+.close-button {
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+  border: transparent;
+  /* padding: 10px; */
+  margin: 2px;
+  text-align: center;
+}
+
+.close-button:hover {
+  background: rgb(199, 199, 199);
+  cursor: pointer;
+}
+.error-msg {
+  color: #cd2122;
+  font-size: 12px;
+  margin-block-end: 0px;
 }
 </style>
