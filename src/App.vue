@@ -16,7 +16,7 @@
       <h2>Contact Us</h2>
 
       <form>
-        <label for="fname">First Name</label>
+        <label for="fname">Full Name</label>
         <input
           type="text"
           id="fname"
@@ -24,19 +24,7 @@
           v-model="v$.fname.$model"
         />
         <div class="error-msg" v-if="v$.fname.$error">
-          First Name is required
-        </div>
-        <br />
-
-        <label for="lname">Last Name</label>
-        <input
-          type="text"
-          id="lname"
-          name="lastname"
-          v-model="v$.lname.$model"
-        />
-        <div class="error-msg" v-if="v$.lname.$error">
-          Last Name is required
+          Full Name is required
         </div>
         <br />
 
@@ -52,6 +40,40 @@
           <option value="canada">Canada</option>
           <option value="usa">USA</option>
         </select>
+
+        <label>Membership</label>
+        <div class="spacing">
+          <input type="radio" id="standard" value="Standard" v-model="mem" />
+          <label class="input-style vertical-spacing" for="standard"
+            >Standard</label
+          >
+
+          <input type="radio" id="premium" value="Premium" v-model="mem" />
+          <label class="input-style vertical-spacing" for="premium"
+            >Premium</label
+          >
+        </div>
+
+        <label>Support Preference</label>
+        <div class="spacing">
+          <input type="checkbox" id="jack" value="Jack" v-model="support" />
+          <label class="input-style vertical-spacing" for="jack">Jack</label>
+          <br />
+
+          <input
+            type="checkbox"
+            id="jasmine"
+            value="Jasmine"
+            v-model="support"
+          />
+          <label class="input-style vertical-spacing" for="jasmine"
+            >Jasmine</label
+          >
+          <br />
+
+          <input type="checkbox" id="mike" value="Mike" v-model="support" />
+          <label class="input-style vertical-spacing" for="mike">Mike</label>
+        </div>
 
         <label for="subject">Subject</label>
         <textarea
@@ -89,6 +111,8 @@ const lname = ref(null);
 const tel = ref(null);
 const country = ref("");
 const subject = ref(null);
+const mem = ref("Standard");
+const support = ref([]);
 const rules = computed(() => ({
   fname: { required },
   lname: { required },
@@ -103,6 +127,8 @@ const updateConfirmation = () => {
   tel.value = null;
   country.value = "";
   subject.value = null;
+  mem.value = "Standard";
+  support.value = [];
   v$.value.$reset();
 };
 const close = () => {
@@ -206,5 +232,15 @@ input[type="submit"]:hover {
   color: #cd2122;
   font-size: 12px;
   margin-block-end: 0px;
+}
+.spacing {
+  margin-block: 6px 16px;
+}
+.input-style {
+  font-size: 16px;
+  color: black;
+}
+.vertical-spacing {
+  margin-inline: 4px 16px;
 }
 </style>
