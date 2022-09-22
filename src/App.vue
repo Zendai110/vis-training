@@ -54,25 +54,32 @@
           >
         </div>
 
-        <label>Support Preference</label>
+        <label>Deployment Model</label>
         <div class="spacing">
-          <input type="checkbox" id="jack" value="Jack" v-model="support" />
-          <label class="input-style vertical-spacing" for="jack">Jack</label>
+          <input type="checkbox" id="cloud" value="Cloud" v-model="support" />
+          <label class="input-style vertical-spacing" for="cloud">Cloud</label>
           <br />
 
           <input
             type="checkbox"
-            id="jasmine"
-            value="Jasmine"
+            id="onpremise"
+            value="On-Premise"
             v-model="support"
           />
-          <label class="input-style vertical-spacing" for="jasmine"
-            >Jasmine</label
+          <label class="input-style vertical-spacing" for="onpremise"
+            >On-Premise</label
           >
           <br />
 
-          <input type="checkbox" id="mike" value="Mike" v-model="support" />
-          <label class="input-style vertical-spacing" for="mike">Mike</label>
+          <input
+            type="checkbox"
+            id="cloudenabled"
+            value="Cloud-Enabled"
+            v-model="support"
+          />
+          <label class="input-style vertical-spacing" for="cloudenabled"
+            >Cloud Enabled</label
+          >
         </div>
 
         <label for="subject">Subject</label>
